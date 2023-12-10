@@ -1,5 +1,5 @@
 \documentclass[12pt,a4paper]{report}
-\usepackage{amsmath,amsthm,amssymb,graphicx,hyperref,float}
+\usepackage{amsmath,amsthm,amssymb,graphicx,hyperref,float,mathalpha}
 \usepackage[left=1.2in,right=1in,top=1in,bottom=1in]{geometry}
 \usepackage[english]{babel}
 \usepackage{color}
@@ -48,10 +48,10 @@
 
 FACULTATEA DE MATEMATIC\u A \c SI INFORMATIC\u A}}
 
-\vspace{30pt}
+\vspace{65pt}
 {\huge {\bf Verification of Neural Networks Competition}}
 
-\vspace{25pt}
+\vspace{65pt}
 \end{center}
 
 \noindent Rafael-Valentin Ban\\
@@ -60,17 +60,27 @@ FACULTATEA DE MATEMATIC\u A \c SI INFORMATIC\u A}}
 \noindent Cristina-Larisa Petcu\\
 \noindent M\u ad\u alina-Maria Radu\\
 
+\vspace{65pt}
 \section*{Abstract}
-This benchmark consists of Two-Level Lattice (TLL) NNs, which have been shown to be amenable to fast verification algorithms (e.g. FerlezKS22). Thus, this benchmark was proposed as a means of comparing TLL-specific verification algorithms with general-purpose NN verification algorithms (i.e. algorithms that can verify arbitrary deep, fully-connected ReLU NNs).\cite{tll_git}
-
-\vfill
-\newpage
-\normalsize{}
-\tableofcontents
+This benchmark consists of Two-Level Lattice (TLL) NNs, which have been shown to be amenable to fast verification algorithms, for example, FerlezKS22\cite{tll_fast_algorithm} (a fast verification algorithms) can verify whether the output of a given TLL NN always lies within a specified hyper-rectangle whenever its input is constrained to a specified convex polytope (not necessarily a hyper-rectangle).\cite{tll_fast_algorithm} Thus, this benchmark was proposed as a means of comparing TLL-specific verification algorithms with general-purpose NN verification algorithms (i.e. algorithms that can verify arbitrary deep, fully-connected ReLU NNs).\cite{tll_git}
 \chapter{Description of the dataset}
+\tab The networks in this benchmark are a subset of the ones used in Experiment 3 of FerlezKS22\cite{tll_fast_algorithm}. Each of these TLL NNs has n=2 inputs and m=1 output. The architecture of a TLL NN is further specified by two parameters: N, the number of local linear functions, and M, the number of selector sets. This benchmark contains TLLs of sizes N = M = 8, 16, 24, 32, 40, 48, 56, 64, with 30 randomly generated examples of each (the generation procedure is described in Section 6.1.1 of FerlezKS22\cite{tll_fast_algorithm}). At runtime, the specified verification timeout determines how many of these networks are included in the benchmark so as to achieve an overall 6-hour run time; this selection process is deterministic. Finally, a TLL NN has a natural representation using multiple computation paths Figure 1 of FerlezKS22\cite{tll_fast_algorithm}, but many tools are only compatible with fully-connected networks. Hence, the ONNX models in this benchmark implement TLL NNs by "stacking" these computation paths to make a fully connected NN (leading to sparse weight matrices: i.e. with many zero weights and biases). The TLLnet\cite{tll_net} class contains the code necessary to generate these implementations via the exportONNX method.\cite{tll_git}
+
+\begin{figure}[H]
+\centering
+\fbox{\includegraphics[width=0.8\textwidth]{figure1.png}}
+\caption{Figure 1: A TLL NN from \(\mathbb{R}^n\) → \(\mathbb{R}\)\cite{relu_architecture}}
+\label{fig:relu_architecture}
+\end{figure}
 \chapter{Installation of the tools}
 \chapter{Run of one tool for the benchmark}
 \begin{thebibliography}{1}
 \bibitem{tll_git} TLL Verify Bench Repository, "https://github.com/jferlez/TLLVerifyBench"
+\bibitem{tll_fast_algorithm} FastBATLLNN: Fast Box Analysis of Two-Level Lattice Neural Networks, "https://dl.acm.org/doi/pdf/10.1145/3501710.3519533"
+\bibitem{tll_net} TLLnet, "https://github.com/jferlez/TLLnet"
+\bibitem{relu_architecture} James Ferlez and Yasser Shoukry. 2020. AReN: Assured ReLU NN Architecture for
+Model Predictive Control of LTI Systems. In Proceedings of the 23rd International
+Conference on Hybrid Systems: Computation and Control. Association for Com-
+puting Machinery, New York, NY, USA. "https://doi.org/10.1145/3365365.3382213"
 \end{thebibliography}
 \end{document} 

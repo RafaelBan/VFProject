@@ -3,6 +3,7 @@
 \usepackage[left=1.2in,right=1in,top=1in,bottom=1in]{geometry}
 \usepackage[english]{babel}
 \usepackage{color}
+\usepackage{multirow}
 \usepackage{listings}
 \definecolor{mygreen}{rgb}{0,0.6,0}
 \definecolor{mygray}{rgb}{0.5,0.5,0.5}
@@ -62,30 +63,52 @@ FACULTATEA DE MATEMATIC\u A \c SI INFORMATIC\u A}}
 
 \vspace{65pt}
 \section*{Abstract}
-This benchmark consists of Two-Level Lattice (TLL) NNs, which have been shown to be amenable to fast verification algorithms, for example, FerlezKS22\cite{tll_fast_algorithm} (a fast verification algorithm) can verify whether the output of a given TLL NN always lies within a specified hyper-rectangle whenever its input is constrained to a specified convex polytope (not necessarily a hyper-rectangle).\cite{tll_fast_algorithm} Thus, this benchmark was proposed as a means of comparing TLL-specific verification algorithms with general-purpose NN verification algorithms (i.e. algorithms that can verify arbitrary deep, fully-connected ReLU NNs).\cite{tll_git}
 \tableofcontents
 
 \chapter{Description of the dataset}
-\tab The networks in this benchmark are a subset of the ones used in Experiment 3 of FerlezKS22\cite{tll_fast_algorithm}. Each of these TLL NNs has n=2 inputs and m=1 output. The architecture of a TLL NN is further specified by two parameters: N, the number of local linear functions, and M, the number of selector sets. This benchmark contains TLLs of sizes N = M = 8, 16, 24, 32, 40, 48, 56, 64, with 30 randomly generated examples of each (the generation procedure is described in Section 6.1.1 of FerlezKS22\cite{tll_fast_algorithm}). At runtime, the specified verification timeout determines how many of these networks are included in the benchmark so as to achieve an overall 6-hour run time; this selection process is deterministic. Finally, a TLL NN has a natural representation using multiple computation paths Figure 1 of FerlezKS22\cite{tll_fast_algorithm}, but many tools are only compatible with fully-connected networks. Hence, the ONNX models in this benchmark implement TLL NNs by "stacking" these computation paths to make a fully connected NN (leading to sparse weight matrices: i.e. with many zero weights and biases). The TLLnet\cite{tll_net} class contains the code necessary to generate these implementations via the exportONNX method.\cite{tll_git}\\
-As mentioned before, the data for this benchmark consists of TLLNNs that were used by the authors for a previous study. The original data consists of neural networks of n = 2 and N = M. Thirty examples of N = M = 8, 16, 24, 32, 40, 48, 56 and 64, with each size having a common neuron count from 256 neurons at N = 8 to 163.834 neurons at N = 64. \\
-
-
-
-\begin{figure}[H]
-\centering
-\fbox{\includegraphics[width=0.8\textwidth]{figure1.png}}
-\caption{Figure 1: A TLL NN from \(\mathbb{R}^n\) → \(\mathbb{R}\)\cite{relu_architecture}}
-\label{fig:relu_architecture}
-\end{figure}
 \chapter{Installation of the tools}
+\tab For the installation of the alpha-beta-CROWN, we have used the step by step "Instructions for running the VNN-COMP benchmarks"\cite{alpha-beta-instructions} published by the tool developers which contains everything required for a successful installation. Firstly we cloned the git project recursively which also cloned auto\_LiRPA\cite{auto_lirpa_repo} to also support a wide range of neural network architectures.
+
+After having the project locally, we installed Miniconda\cite{miniconda} to be able to have a fresh environment in which we can install the dependencies and run the tool on our benchmark. Here we ran into our first problem, which appeared to be that when trying to create the environment with Miniconda\cite{miniconda}, the yaml extension file defined to specify the dependencies when creating the environment, was containing a redirection to another yaml extension file. The specified redirection did not work and we had to move the dependencies from the redirected yaml extension file to the main yaml extension file.
+
+Once we successfully used the correct yaml file for environment configuration, we ran into our second problem, which was the fact that not all of the dependencies used for alpha-beta-CROWN are available for Windows, therefore we had to change the operating system to a Linux based one and try again.
+
+Finally, when we retried all of the steps with the adaptations written above, the installation was successful and the environment was ready for running benchmarks.
+
+A problem that we encountered on the journey after the installation, was that each time we started the environment, we had to redefine the system variable VNNCOMP\_PYTHON\_PATH which contains the path to python, otherwise the run was not possible to start.
 \chapter{Run of one tool for the benchmark}
+\tab When it comes on running the benchmark, we have reached the conclusion that the first benchmark, tllverifybench\cite{tll_verify_bench}, was too simple and flawless to be able to extend the project after a simple run that reproduced the exact output from the competition. Therefore we chose to change it to Traffic Signs Recognition\cite{traffic_signs_recognition} so we can try to solve some of the problems that the competition run had.
+
+After the first run we observed that due to a timeout after an instance that timed out, we could not reproduce the exact output due to the process stopping at that point, generating the report only to that specific instance (see
+
+results\_traffic\_signs\_recognition\_default\_time.csv\cite{traffic_signs_recognition_first_solution}). After increasing the timeout in run\_all\_categories.sh file found in the alpha-beta-CROWN project, we were able to reproduce the output, but the instance that crashed the process still timed out, this time after 1000.0 seconds (the given value (see
+
+results\_traffic\_signs\_recognition\_increased\_time\_to\_1000.csv\cite{traffic_signs_recognition_second_solution}).
+
+\vspace{8pt}
+\begin{tabular}{ |p{3cm}|p{3cm}|  }
+ \hline
+ \multicolumn{2}{|c|}{Traffic Signs Recognition benchmark run with alpha-beta-CROWN} \\
+ \hline
+ Falsified& 39\\
+ \hline
+ Penalty   & 3\\
+ \hline
+\end{tabular}
+\vspace{10pt}
+
+The falsified responses comes from the fact that the output for most of the instances seem to be satisfiable, when in fact there is still generated an counter-example for 39 of them which turn to be a false positive. The penalty comes from 3 instances that have the result different than "sat" or "unsat", 2 of them have the result "no\_result\_in\_file". After having a look in the logs, it appears that the branch-and-bound (BaB) round 69 stops (kills) the process in both instances therefore there is no output file from which to get the result. No successful method in changing the BaB and timeout configurations was found yet after some failed attempts.
+
+The remaining instance that fails with the "run\_instance\_timeout" seems to not be fixed after increasing the timeout from 480 seconds to 1000, further timeout increase will be made to test if any real timeout value can fix the problem.
 \begin{thebibliography}{1}
-\bibitem{tll_git} TLL Verify Bench Repository, "https://github.com/jferlez/TLLVerifyBench"
-\bibitem{tll_fast_algorithm} FastBATLLNN: Fast Box Analysis of Two-Level Lattice Neural Networks, "https://dl.acm.org/doi/pdf/10.1145/3501710.3519533"
-\bibitem{tll_net} TLLnet, "https://github.com/jferlez/TLLnet"
-\bibitem{relu_architecture} James Ferlez and Yasser Shoukry. 2020. AReN: Assured ReLU NN Architecture for
-Model Predictive Control of LTI Systems. In Proceedings of the 23rd International
-Conference on Hybrid Systems: Computation and Control. Association for Com-
-puting Machinery, New York, NY, USA. "https://doi.org/10.1145/3365365.3382213"
+\bibitem{alpha-beta-instructions} Alpha-beta-CROWN instructions for running the VNN-COMP benchmarks, "https://github.com/Verified-Intelligence/alpha-beta-CROWN/blob/main/complete\_verifier/docs/vnn\_comp.md"
+\bibitem{auto_lirpa_repo} Auto-LiRPA repository, "https://github.com/Verified-Intelligence/auto\_LiRPA"
+\bibitem{miniconda} Miniconda, "https://docs.conda.io/projects/miniconda/en/latest/"
+\bibitem{tll_verify_bench} TLLVerifyBench repository, "https://github.com/jferlez/TLLVerifyBench"
+\bibitem{traffic_signs_recognition} Traffic Signs Recognition Repository, "https://github.com/ChristopherBrix/vnncomp2023\_benchmarks/tree/main/benchmarks/traffic\_signs\_recognition"
+\bibitem{traffic_signs_recognition_first_solution} results\_traffic\_signs\_recognition\_default\_time.csv
+"https://github.com/RafaelBan/VFProject/blob/main/results\_traffic\_signs\_recognition\_default\_time.csv"
+\bibitem{traffic_signs_recognition_second_solution} results\_traffic\_signs\_recognition\_increased\_time\_to\_1000.csv
+"https://github.com/RafaelBan/VFProject/blob/main/results\_traffic\_signs\_recognition\_increased\_time\_to\_1000.csv"
 \end{thebibliography}
 \end{document} 

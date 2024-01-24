@@ -21,3 +21,5 @@ release
 *.out
 *.txt
 alpha-beta-CROWN
+Marabou-master
+runMarabou.py

@@ -116,6 +116,12 @@ results\_traffic\_signs\_recognition\_default\_time.csv\cite{traffic_signs_recog
 
 results\_traffic\_signs\_recognition\_increased\_time\_to\_1000.csv\cite{traffic_signs_recognition_second_solution}).\\
 
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{run_instance_timeout.png}
+\caption{Run instance timeout of a specific network ran with displayed properties}
+\end{figure}
+
 The falsified responses comes from the fact that, the output for most of the instances, seem to be satisfiable when in fact there is still generated an counter-example for 39 of the instances which turn to be a false positive. The penalty comes from 3 instances that have the result different than "sat" or "unsat". Two of them have the result "no\_result\_in\_file" and after having a look in the logs, it appears that the branch-and-bound (BaB) round 69 stops (kills) the process in both instances therefore there is no output file from which to get the result. No successful method in changing the BaB and timeout configurations was found yet after some failed attempts.
 
 The remaining instance that fails with the "run\_instance\_timeout" seems to not be fixed after increasing the timeout from 480 seconds to 1000, further timeout increase will be made to test if any real timeout value can fix the problem.

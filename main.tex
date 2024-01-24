@@ -62,6 +62,8 @@ FACULTATEA DE MATEMATIC\u A \c SI INFORMATIC\u A}}
 
 \newpage
 \section*{Abstract}
+Neural networks are computational models inspired by the structure and functioning of the human brain. These networks are used in machine learning to recognize patterns, make predictions, or perform tasks by learning from data and are increasingly utilized in autonomous vehicles. 
+One  example of  neural network is the German Traffic Sign Recognition Benchmark, which employs Neural Networks to analyze traffic signs. The tools we are focusing on are alpha-beta-CROWN, marabou, and nnenum. We managed to get results with Alpha-beta-CROWN while we could not  get Marabou to run properly and with Nnenum, it could not perform the Transpose and Sign operations that were included in the onnx files, and so we got exit_codes instead of results.  The difficulty of the analysis of this benchmark arises from the wide range of angles, luminosity, distance, and colors, as well as the types of traffic signs that were photographed. 
 
 
 \tableofcontents
@@ -111,6 +113,10 @@ A problem that we encountered on the journey after the installation, was that ea
 \newpage
 \section{Marabou}
 The following tool we chose is Marabou. Following the GitHub guide, we encountered errors regarding dependant tools that needed to be installed first (more specifically, Pybind11, Protobuf, openBlass, Boost, and Onnx). Due to these issues, we had to find an alternative way to install this tool. That is when we found another solution, in which the steps were presented differently, steps which we found were right for our case. The steps are as follows: clone the Marabou repository, install cmake, python and pip, make a build folder and go into it, and from there execute two cmake build instructions. Despite taking some time, the instructions executed successfully, building the Marabou executable, the python package and also numerous testing files for checking the integrity of the tool. This way, we managed to successfully install the tool. After that, we tried to take an example onnx and vnnlib property file from the traffic sign benchmark dataset and run the executable with it. Unfortunately we encountered a Segmentation Fault error. We also tried to run the python program with the same arguments, but we also encountered errors. Without many tools online to solve this problem, we were left with the option to try another tool and see if we would have better success with it.
+
+\newpage
+\section{Nnenum}
+After Marabou, which we could not successfully run, we found another tool: Nnenum. We decided to try it and see if we had better success. And so, we followed the repository instructions, which were a lot easier to go through. All we needed to do is install docker and then run a build docker command with the provided Dockerfile in the repository, and then run the container after the successful build. Fortunately, the repository instructions were correct, and we were able to run the tool. Therefore, we again ran the tool with a onnx and vnnlib file and see the result. Unfortunately, the tool could not implement the operations of Transpose and Sign, two instructions that were present in the onnx files. Despite this, we went to the vnncomp-2023 folder and ran all the instances for the traffic sign recognition dataset, and we did get an out.csv file where we had exit code of 1 instead of actual results, but with a runtime value. Despite this setback, this was an easier tool to run and we did get an improvement over the previous one
 
 
 \chapter{Experimental results}

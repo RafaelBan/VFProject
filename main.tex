@@ -1,3 +1,4 @@
+
 \documentclass[12pt,a4paper]{report}
 \usepackage{amsmath,amsthm,amssymb,graphicx,hyperref,float,mathalpha}
 \usepackage[left=1.2in,right=1in,top=1in,bottom=1in]{geometry}
@@ -58,11 +59,17 @@ FACULTATEA DE MATEMATIC\u A \c SI INFORMATIC\u A}}
 \noindent Cristina-Larisa Petcu\\
 \noindent M\u ad\u alina-Maria Radu\\
 
-\vspace{65pt}
+
+\newpage
 \section*{Abstract}
+
+
 \tableofcontents
 
 \chapter{Introduction}
+
+
+
 \chapter{Dataset description}
 \tab The experiment we decided to tackle is the one presented in the paper \textbf{Architecturing Binarized Neural Networks for Traffic Sign Recognition} \cite{traffic_signs_paper}. The aforementioned experiment deals with \textbf{binarized neural networks} for traffic sign recognition. The paper discusses a bottom-up approach for designing BBNs by studying their constituent layer characteristics, like binarized convolutional layers, max pooling, batch normalization and fully connected layers. The authors of this paper study these aspects by exploring various combinations of the aforementioned layers with different kernel sizes, numerous filters and neurons using the \textbf{German Traffic Sign Recognition Benchmark} as training data.\\\\
 \tab According to the paper, the \textbf{German Traffic Sign Recognition Benchmark} (\textbf{GTSRB}) is a multi-class single-image dataset that is used in the paper's experiment as training data for the BNNs. It consists of images of road signs of different types such as prohibitory signs ("No Entry", "Wrong Way", "Road Closed", "No Straight Ahead" and so on), danger signs ("Under Construction", "Do Not Cross", "Train Track", "Slippery Road" and so on), as well as mandatory signs ("Go Straight Ahead", "Turn Right", "Permitted Directions", "Buses / Trucks / Bicycles / Pedestrians Only" and more). The images in the dataset are of different sizes, with a range from 25 x 25 to 243 x 225, with some not being perfect squares. As a total count, it contains 39,209 images used for training and 12,630 used for the actual experiment.\\\\
@@ -92,6 +99,8 @@ A problem that we encountered on the journey after the installation, was that ea
 
 \newpage
 \section{Marabou}
+The following tool we chose is Marabou. Following the GitHub guide, we encountered errors regarding dependant tools that needed to be installed first (more specifically, Pybind11, Protobuf, openBlass, Boost, and Onnx). Due to these issues, we had to find an alternative way to install this tool. That is when we found another solution, in which the steps were presented differently, steps which we found were right for our case. The steps are as follows: clone the Marabou repository, install cmake, python and pip, make a build folder and go into it, and from there execute two cmake build instructions. Despite taking some time, the instructions executed successfully, building the Marabou executable, the python package and also numerous testing files for checking the integrity of the tool. This way, we managed to successfully install the tool. After that, we tried to take an example onnx and vnnlib property file from the traffic sign benchmark dataset and run the executable with it. Unfortunately we encountered a Segmentation Fault error. We also tried to run the python program with the same arguments, but we also encountered errors. Without many tools online to solve this problem, we were left with the option to try another tool and see if we would have better success with it.
+
 
 \chapter{Experimental results}
 \tab When it comes on running the benchmark, we have reached the conclusion that the first benchmark, tllverifybench\cite{tll_verify_bench}, was too simple and flawless to be able to extend the project after a simple run that reproduced the exact output from the competition. Therefore we chose to change it to Traffic Signs Recognition\cite{traffic_signs_recognition} so we can try to solve some of the problems that the competition run had, where we achieved the following values:
@@ -116,6 +125,8 @@ results\_traffic\_signs\_recognition\_default\_time.csv\cite{traffic_signs_recog
 
 results\_traffic\_signs\_recognition\_increased\_time\_to\_1000.csv\cite{traffic_signs_recognition_second_solution}).\\
 
+.
+
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.6]{run_instance_timeout.png}
@@ -125,7 +136,7 @@ results\_traffic\_signs\_recognition\_increased\_time\_to\_1000.csv\cite{traffic
 The falsified responses comes from the fact that, the output for most of the instances, seem to be satisfiable when in fact there is still generated an counter-example for 39 of the instances which turn to be a false positive. The penalty comes from 3 instances that have the result different than "sat" or "unsat". Two of them have the result "no\_result\_in\_file" and after having a look in the logs, it appears that the branch-and-bound (BaB) round 69 stops (kills) the process in both instances therefore there is no output file from which to get the result. No successful method in changing the BaB and timeout configurations was found yet after some failed attempts.
 
 The remaining instance that fails with the "run\_instance\_timeout" seems to not be fixed after increasing the timeout from 480 seconds to 1000, further timeout increase will be made to test if any real timeout value can fix the problem.
-\section{Marabou}
+
 \chapter{Conclusions}
 \tab In conclusion, it seems that the dataset Traffic Signs Recognition\cite{traffic_signs_recognition} it is very hard to be verified 100\% because even if a small adaptation rate (epsilon) like 1.00, the image will differ unless we set an adaptation rate of 0. Beside of this, both of the tools found penalties for this dataset for some verification cases which had a small adaptation rate number (1.00 and 5.00) which indicates that for those cases the image could not be verified unless we increase the specified rate.
 

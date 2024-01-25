@@ -116,11 +116,11 @@ A problem that we encountered on the journey after the installation, was that ea
 
 \newpage
 \section{Marabou}
-\tab The following tool we chose is Marabou. Following the GitHub guide, we encountered errors regarding dependant tools that needed to be installed first (more specifically, Pybind11, Protobuf, openBlass, Boost, and Onnx). Due to these issues, we had to find an alternative way to install this tool. That is when we found another solution, in which the steps were presented differently, steps which we found were right for our case.\\
+\tab The following tool we chose is Marabou\cite{marabou-repository}. Following the GitHub guide, we encountered errors regarding dependant tools that needed to be installed first (more specifically, Pybind11, Protobuf, openBlass, Boost, and Onnx). Due to these issues, we had to find an alternative way to install this tool. That is when we found another solution\cite{marabou-guide}, in which the steps were presented differently, steps which we found were right for our case.\\
 \tab The steps are as follows: clone the Marabou repository, install cmake, python and pip, make a build folder and go into it, and from there execute two cmake build instructions. Despite taking some time, the instructions executed successfully, building the Marabou executable, the python package and also numerous testing files for checking the integrity of the tool. This way, we managed to successfully install the tool.\\
 
 \section{Nnenum}
-\tab After Marabou, which we could not successfully run, we found another tool: Nnenum. We decided to try it and see if we had better success. And so, we followed the repository instructions, which were a lot easier to go through. All we needed to do is install docker and then run a build docker command with the provided Dockerfile in the repository, and then run the container after the successful build.\\
+\tab After Marabou, which we could not successfully run, we found another tool: Nnenum\cite{nnenum-repository}. We decided to try it and see if we had better success. And so, we followed the repository instructions, which were a lot easier to go through. All we needed to do is install docker and then run a build docker command with the provided Dockerfile in the repository, and then run the container after the successful build.\\
 \tab Fortunately, the repository instructions were correct, and we were able to run the tool. Therefore, we again ran the tool with an onnx and vnnlib file and see the result. Unfortunately, the tool could not implement the operations of Transpose and Sign, two instructions that were present in the onnx files.
 
 \chapter{Experimental results}
@@ -167,19 +167,6 @@ The remaining instance that fails with the "run\_instance\_timeout" seems to not
 \tab In conclusion, it seems that the dataset Traffic Signs Recognition\cite{traffic_signs_recognition} it is very hard to be verified 100\% because even if a small adaptation rate (epsilon) like 1.00, the image will differ unless we set an adaptation rate of 0. Beside of this, all of the tools found penalties for this dataset for some verification cases which had a small adaptation rate number (1.00 and 5.00) which indicates that for those cases the image could not be verified unless we increase the specified rate.\\
 \tab Nonetheless, it seems that the possibility of improving the benchmark and the tools is present, because in our case there could be chosen other images for those specific signs that fail on which the adaptation rate would not be necesary to be higher to be verified. On the tools side, alpha-beta-CROWN is much more friendlier for anyone to run either the competition benchmark, or any benchmark needed, by offering more clearer documentation on how to do it. When trying to experiment the same with Marabou, it only has the support for 2 benchmarks, none of them being our benchmark.
 
-\begin{thebibliography}{1}
-\bibitem{alpha-beta-crown-git} Alpha-beta-crown git repository, "https://github.com/Verified-Intelligence/alpha-beta-CROWN"
-\bibitem{alpha-beta-instructions} Alpha-beta-CROWN instructions for running the VNN-COMP benchmarks, "https://github.com/Verified-Intelligence/alpha-beta-CROWN/blob/main/complete\_verifier/docs/vnn\_comp.md"
-\bibitem{auto_lirpa_repo} Auto-LiRPA repository, "https://github.com/Verified-Intelligence/auto\_LiRPA"
-\bibitem{miniconda} Miniconda, "https://docs.conda.io/projects/miniconda/en/latest/"
-\bibitem{tll_verify_bench} TLLVerifyBench repository, "https://github.com/jferlez/TLLVerifyBench"
-\bibitem{traffic_signs_recognition} Traffic Signs Recognition Repository, "https://github.com/ChristopherBrix/vnncomp2023\_benchmarks/tree/main/benchmarks/traffic\_signs\_recognition"
-\bibitem{traffic_signs_recognition_first_solution} results\_traffic\_signs\_recognition\_default\_time.csv
-"https://github.com/RafaelBan/VFProject/blob/main/results\_traffic\_signs\_recognition\_default\_time.csv"
-\bibitem{traffic_signs_recognition_second_solution} results\_traffic\_signs\_recognition\_increased\_time\_to\_1000.csv
-"https://github.com/RafaelBan/VFProject/blob/main/results\_traffic\_signs\_recognition\_increased\_time\_to\_1000.csv"
-\bibitem{traffic_signs_paper}
-Architecturing Binarized Neural Networks for Traffic Sign Recognition
-"https://arxiv.org/abs/2303.15005"
-\end{thebibliography}
+\bibliography{references}
+\bibliographystyle{alpha}
 \end{document} 

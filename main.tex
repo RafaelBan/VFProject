@@ -158,10 +158,22 @@ The falsified responses comes from the fact that, the output for most of the ins
 The remaining instance that fails with the "run\_instance\_timeout" seems to not be fixed after increasing the timeout from 480 seconds to 1000, further timeout increase will be made to test if any real timeout value can fix the problem.
 
 \section{Marabou}
-\tab We have tried to take an example onnx and vnnlib property file from the traffic sign benchmark dataset and run the executable with it. Unfortunately we encountered a Segmentation Fault error. We also tried to run the python program with the same arguments, but we also encountered errors. Without many tools online to solve this problem, we were left with the option to try another tool and see if we would have better success with it.
+\tab We have tried to take an example onnx and vnnlib property file from the traffic sign benchmark dataset and run the executable with it. Unfortunately we encountered a Segmentation Fault error (figure 4.2). We also tried to run the python program with the same arguments, but we also encountered errors (figure 4.3). Without many tools online to solve this problem, we were left with the option to try another tool and see if we would have better success with it.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{marabou_error1.png}
+\caption{Running the Marabou executable binary}
+\includegraphics[scale = 0.6]{marabou_error2.png}
+\caption{Running the runMarabou.py script}
+\end{figure}
 
 \section{Nnenum}
-\tab As a final tool experiemntal run, we have tried Nnenum and went to the vnncomp-2023 folder and ran all the instances for the traffic sign recognition dataset, and we did get an out.csv file where we had exit code of 1 instead of actual results, but with a runtime value. Despite this setback, this was an easier tool to run and we did get an improvement over the previous one.
+\tab As a final tool experiemntal run, we have tried Nnenum and went to the vnncomp-2023 folder and ran all the instances for the traffic sign recognition dataset, and we did get an out.csv file where we had exit code of 1 instead of actual results, but with a runtime value (figure 4.4). Despite this setback, this was an easier tool to run and we did get an improvement over the previous one.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.6]{nnenum_error1.png}
+\caption{Running nnenum}
+\end{figure}
 
 \chapter{Conclusions}
 \tab In conclusion, it seems that the dataset Traffic Signs Recognition\cite{traffic_signs_recognition} it is very hard to be verified 100\% because even if a small adaptation rate (epsilon) like 1.00, the image will differ unless we set an adaptation rate of 0. Beside of this, all of the tools found penalties for this dataset for some verification cases which had a small adaptation rate number (1.00 and 5.00) which indicates that for those cases the image could not be verified unless we increase the specified rate.\\

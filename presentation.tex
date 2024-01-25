@@ -100,9 +100,25 @@ Coordinator: Conf. Dr. M\u ad\u alina Era\c scu}
 \setstretch{3} 
 \begin{itemize}
     \item Marabou
+    \begin{itemize}
+        \item based on SMT technology which answers questions about the properties of a neural network
+        \item accepts multiple entry formats
+        \item performs high-level reasoning on the network that can curtail the search space and improve performance
+    \end{itemize}
 \end{itemize}
 \end{frame}
-
+\begin{frame}[plain,c]{Tools}
+\setstretch{3} 
+\begin{itemize}
+    \item Nnenum
+    \begin{itemize}
+        \item uses advanced abstractization for rapidly checking ReLU networks without sacrificing precisions
+        \item written in Python
+        \item utilizes GLPK for solving linear problems
+        \item directly accepts ONNX files and VNNLIB property files
+    \end{itemize}
+\end{itemize}
+\end{frame}
 \section{Experimental Results}
 \begin{frame}[plain,c]{Experimental Results}
 \begin{center}
